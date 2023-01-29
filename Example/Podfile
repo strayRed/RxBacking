@@ -1,0 +1,16 @@
+use_frameworks!
+
+platform :ios, '11.0'
+
+target 'RxBacking_Example' do
+  pod 'RxBacking', :path => '../'
+  pod 'SnapKit'
+  pod 'ViewSizeExpandable'
+  # pod 'LookinServer', :configurations => ['Debug']
+
+  target 'RxBacking_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

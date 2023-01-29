@@ -1,0 +1,58 @@
+PODS:
+  - AssociatedObjectAccessible (0.1.0)
+  - Differentiator (5.0.0)
+  - RxBacking (0.1.0):
+    - RxDataSources
+    - ViewSizeCalculation
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
+  - SnapKit (5.6.0)
+  - ViewSizeCalculation (0.2.0)
+  - ViewSizeExpandable (0.1.0):
+    - AssociatedObjectAccessible
+    - ViewSizeCalculation
+
+DEPENDENCIES:
+  - RxBacking (from `../`)
+  - SnapKit
+  - ViewSizeExpandable
+
+SPEC REPOS:
+  trunk:
+    - AssociatedObjectAccessible
+    - Differentiator
+    - RxCocoa
+    - RxDataSources
+    - RxRelay
+    - RxSwift
+    - SnapKit
+    - ViewSizeCalculation
+    - ViewSizeExpandable
+
+EXTERNAL SOURCES:
+  RxBacking:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  AssociatedObjectAccessible: 622bfbf765ea882feea135087c2338e0ec59f069
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
+  RxBacking: cb0318afde693c47f275c5b19114d9b2b5dfc4cd
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  ViewSizeCalculation: 17acdf9b4f072bdd8a83722cdcc15bb9bfe48ae4
+  ViewSizeExpandable: 25634888f02f7897f9c623de992d8a097624a1ca
+
+PODFILE CHECKSUM: 9199cbd85c555402547bd00e9a3a52e85d595c58
+
+COCOAPODS: 1.11.3
