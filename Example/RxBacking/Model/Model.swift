@@ -32,7 +32,7 @@ struct Section: AnimatableSectionModelType {
 }
 
 
-struct Model: AnimatableSectionItem, ExpansionModel {
+struct Model: AnimatableSectionItemType, ExpansionModel {
     
     var expansionState: ExpansionState = .collapsed
     
