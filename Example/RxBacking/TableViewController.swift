@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxRelay
 import RxBacking
-import ViewSizeExpandable
+import ViewSizeExpansion
 
 class TableViewController: UIViewController, UITableViewDelegate {
     var sections: [Section] = staticSections

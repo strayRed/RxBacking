@@ -8,7 +8,7 @@
 
 import UIKit
 import RxBacking
-import ViewSizeExpandable
+import ViewSizeExpansion
 
 class TableViewCell: UITableViewCell, ReusableViewSizeExpandable {
     

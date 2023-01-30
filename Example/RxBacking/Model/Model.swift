@@ -8,7 +8,7 @@
 
 import Foundation
 import RxBacking
-import ViewSizeExpandable
+import ViewSizeExpansion
 
 struct Section: AnimatableSectionModelType {
     

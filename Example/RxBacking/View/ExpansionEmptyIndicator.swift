@@ -8,7 +8,7 @@
 
 import Foundation
 import RxSwift
-import ViewSizeExpandable
+import ViewSizeExpansion
 
 class ExpansionEmptyIndicator: UIView, ExpansionIndicator {
     func expansionStateDidChanged(expansionState: ExpansionState) { }
