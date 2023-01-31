@@ -24,3 +24,7 @@ extension RxDataSources.ViewTransition {
         return isReload ? .reload : .animated
     }
 }
+
+extension AnimatableSectionModel: ViewModelIdentifiableType { }
+
+extension AnimatableSectionModel: AnimatableSectionModelType { }

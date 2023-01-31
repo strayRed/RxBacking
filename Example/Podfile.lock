@@ -1,7 +1,7 @@
 PODS:
   - AssociatedObjectAccessible (0.1.0)
   - Differentiator (5.0.0)
-  - RxBacking (0.1.5):
+  - RxBacking (0.1.6):
     - RxDataSources
     - ViewSizeCalculation
   - RxCocoa (6.5.0):
@@ -45,7 +45,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AssociatedObjectAccessible: 622bfbf765ea882feea135087c2338e0ec59f069
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
-  RxBacking: 2f13309210a6861b67abfaceb78d3ac1925b1d26
+  RxBacking: fcfe5ff85a9a184fca038436997160535cd93428
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
