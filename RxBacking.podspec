@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RxBacking'
-  s.version          = '0.1.4'
+  s.version          = '0.1.5'
   s.summary          = 'A declarative way to implement delegate and dataSource of tableView and collectionView in iOS.'
 
 # This description is used to generate tags and improve search results.
