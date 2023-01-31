@@ -34,13 +34,13 @@ public protocol MutatbleAnimatableSectionModelType: AnimatableSectionModelType, 
 
 public typealias SectionModelType = RxDataSources.SectionModelType
 
-public typealias AnimatableSectionItemType = ViewModelIdentifiableType & Equatable
-
 public typealias SectionModel<Section, Item> = RxDataSources.SectionModel<Section, Item>
 
 public typealias AnimatableSectionModel<Section: ViewModelIdentifiableType, Item: AnimatableSectionItemType> = RxDataSources.AnimatableSectionModel<Section, Item>
 
 public typealias AnimationConfiguration = RxDataSources.AnimationConfiguration
+
+public protocol AnimatableSectionItemType: ViewModelIdentifiableType, Equatable { }xw
 
 public protocol AnimatableSectionModelType: RxDataSources.AnimatableSectionModelType, ViewModelIdentifiableType where Item: AnimatableSectionItemType { }
 
