@@ -23,7 +23,7 @@ protocol ListItemSizingDataSource: AnyObject {
     
     func synchronizeItem(_ item: ListItemStateSynchronizable, withState state: Any, atIndexPath indexPath: IndexPath, kind: ListItemKind)
     
-    func item(at indexPath: IndexPath) -> Any
+    func sectionModelItem(at indexPath: IndexPath) -> Any
     func sectionModel(at section: Int) -> Any
 }
 

@@ -46,7 +46,6 @@ class TableViewController: UIViewController, UITableViewDelegate {
         if state == sections[indexPath.section].items[indexPath.row].expansionState { return }
         sections[indexPath.section].items[indexPath.row].updateExpansionState(state)
         source.accept(sections)
-        
     }
     
 

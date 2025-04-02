@@ -118,12 +118,12 @@ open class RxTableViewBacking<SectionModel: SectionModelType, DataSource: TableV
     }
 
     open var configureCell: TableViewSectionedDataSource<Model.Element>.ConfigureCell {
-        return { [weak self] (dataSource, tableView, indexPath, item) in
+        return { [weak self] (dataSource, tableView, indexPath, sectionItem) in
             guard let self = self else { return .init() }
             let reusableCell = self.reusableCell(at: indexPath)
             guard let reusableCell = reusableCell else { return .init() }
             let cell = tableView.dequeue(reusableCell)
-            self.synchronizeItem(cell, withState: item, atIndexPath: indexPath, kind: .cell)
+            self.synchronizeItem(cell, withState: sectionItem, atIndexPath: indexPath, kind: .cell)
             return cell
         }
     }
@@ -216,22 +216,22 @@ open class RxTableViewBacking<SectionModel: SectionModelType, DataSource: TableV
     func synchronizeItem(_ item: ListItemStateSynchronizable, withState state: Any, atIndexPath indexPath: IndexPath, kind: ListItemKind) {
         switch kind {
         case .cell:
-            if let cell = item as? UITableViewCell, let item = state as? SectionModel.Item {
-                cellConfigurationBeforeSynchronized?(cell, item, indexPath)
-                cell.synchronizeWithState(item, at: indexPath)
-                cellConfigurationAfterSynchronized?(cell, item, indexPath)
+            if let cell = item as? UITableViewCell, let sectionItem = state as? SectionModel.Item {
+                cellConfigurationBeforeSynchronized?(cell, sectionItem, indexPath)
+                cell.synchronizeWithState(sectionItem, at: indexPath)
+                cellConfigurationAfterSynchronized?(cell, sectionItem, indexPath)
             }
         case .header:
-            if let view = item as? UITableViewHeaderFooterView, let item = state as? SectionModel {
-                headerConfigurationBeforeSynchronized?(view, item, indexPath.section)
-                view.synchronizeWithState(item, at: indexPath)
-                headerConfigurationAfterSynchronized?(view, item, indexPath.section)
+            if let view = item as? UITableViewHeaderFooterView, let section = state as? SectionModel {
+                headerConfigurationBeforeSynchronized?(view, section, indexPath.section)
+                view.synchronizeWithState(section, at: indexPath)
+                headerConfigurationAfterSynchronized?(view, section, indexPath.section)
             }
         case .footer:
-            if let view = item as? UITableViewHeaderFooterView, let item = state as? SectionModel {
-                footerConfigurationBeforeSynchronized?(view, item, indexPath.section)
-                view.synchronizeWithState(item, at: indexPath)
-                footerConfigurationAfterSynchronized?(view, item, indexPath.section)
+            if let view = item as? UITableViewHeaderFooterView, let section = state as? SectionModel {
+                footerConfigurationBeforeSynchronized?(view, section, indexPath.section)
+                view.synchronizeWithState(section, at: indexPath)
+                footerConfigurationAfterSynchronized?(view, section, indexPath.section)
             }
         }
     }

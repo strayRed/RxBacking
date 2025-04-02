@@ -86,18 +86,3 @@ extension UICollectionView {
     }
 }
 
-extension AnyReusableCell {
-    func makeCollectionViewCell() -> UICollectionViewCell {
-        if let nib = self.nib {
-            for view in nib.instantiate(withOwner: nil, options: nil) {
-                if let cell = view as? UICollectionViewCell { return cell }
-            }
-        }
-        if let type = self.type as? UICollectionViewCell.Type {
-            return type.init()
-        }
-        fatalError("Mismatched ReusableCell type")
-    }
-}
-
-

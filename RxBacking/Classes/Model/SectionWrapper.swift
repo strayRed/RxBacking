@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Differentiator
 
 public struct AnimatableSectionModelWrapper<Base: AnimatableSectionModelType, Value>: AnimatableSectionModelType {
     

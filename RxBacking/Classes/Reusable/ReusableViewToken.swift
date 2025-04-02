@@ -13,24 +13,27 @@ fileprivate func typeName<T>(of subject: T.Type) -> String {
     return typeName
 }
 
-public protocol ReusableItem {
+public protocol ReusableViewToken {
     var type: UIView.Type { get }
     var reuseIdentifier: String { get }
     var nibName: String? { get }
-
 }
 
-extension ReusableItem {
+public extension ReusableViewToken {
     var nib: UINib? {
         if let nibName = nibName
         { return .init(nibName: nibName, bundle: .init(for: type)) }
         return nil
     }
+    
+    func makeView<View: UIView>(nibOwner: Any? = nil, nibOptions: [UINib.OptionsKey : Any]? = nil, nibIndex: Int = 0) -> View {
+        castOrFatalError(nib == nil ? type.init(frame: .zero) : nib?.instantiate(withOwner: nil)[nibIndex])
+    }
 }
 
 
-/// A generic class that represents reusable cells.
-public struct AnyReusableCell: ReusableItem {
+/// A generic type that represents reusable cells.
+public struct AnyReusableCell: ReusableViewToken {
     
     public let type: UIView.Type
     public let reuseIdentifier: String
@@ -48,8 +51,8 @@ public struct AnyReusableCell: ReusableItem {
 }
 
 
-/// A generic class that represents reusable views.
-public struct AnyReusableView: ReusableItem {
+/// A generic type that represents reusable views.
+public struct AnyReusableView: ReusableViewToken {
 
     public let type: UIView.Type
     public let reuseIdentifier: String

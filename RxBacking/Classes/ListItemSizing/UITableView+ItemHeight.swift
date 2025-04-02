@@ -1,5 +1,5 @@
 //
-//  UITableView+ItemSizing.swift
+//  UITableView+ItemHeight.swift
 //  RxBacking
 //
 //  Created by strayRed on 2021/9/17.
@@ -49,7 +49,6 @@ private var headerFooterViewReferencesKey: Void?
 
 extension UITableView {
     
-    
     private var cellReferences: [AnyHashable: UITableViewCell] {
         set {
             objc_setAssociatedObject(self, &cellReferencesKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -68,61 +67,59 @@ extension UITableView {
         }
     }
     
-    private func makeTableViewCell(from reusableCell: AnyReusableCell) -> UITableViewCell {
-        if let cell = cellReferences[reusableCell.reuseIdentifier] {
+    private func makeTableViewCell(token: AnyReusableCell) -> UITableViewCell {
+        if let cell = cellReferences[token.reuseIdentifier] {
             cell.prepareForReuse()
             return cell
         }
-        let cell = self.dequeue(reusableCell)
+        let cell: UITableViewCell = token.makeView()
 
         //Using `reuseIdentifier` as the key to avoid unnecessary memory consumption.
-        cellReferences[reusableCell.reuseIdentifier] = cell
-
+        cellReferences[token.reuseIdentifier] = cell
         return cell
     }
     
-    private func makeHeaderFooterView(from reusableView: AnyReusableView, at section: Int) -> UITableViewHeaderFooterView {
-        if let view = headerFooterViewReferences[reusableView.reuseIdentifier] {
+    private func makeHeaderFooterView(token: AnyReusableView) -> UITableViewHeaderFooterView {
+        if let view = headerFooterViewReferences[token.reuseIdentifier] {
             view.prepareForReuse()
             return view
         }
-        let view = dequeue(reusableView)
-        headerFooterViewReferences[reusableView.reuseIdentifier] = view
+        let view: UITableViewHeaderFooterView = token.makeView()
+        headerFooterViewReferences[token.reuseIdentifier] = view
         return view
     }
 
     
-    
     func caculateItemHeight(kind: ListItemKind, indexPath: IndexPath, dataSource: ListItemSizingDataSource) -> CGFloat? {
         let model: Any
         let item: ListItemStateSynchronizable & UIView
-        let reusableItem: ReusableItem
+        let itemToken: ReusableViewToken
         let contentWidth: CGFloat
         switch kind {
         case .cell:
             guard let reusableCell = dataSource.reusableCell(at: indexPath) else { return nil }
-            model = dataSource.item(at: indexPath)
-            let cell = makeTableViewCell(from: reusableCell)
+            model = dataSource.sectionModelItem(at: indexPath)
+            let cell = makeTableViewCell(token: reusableCell)
             item = cell
-            reusableItem = reusableCell
+            itemToken = reusableCell
             contentWidth = cell.makeSystemContentViewWidth(tableViewWidth: bounds.width)
         case .header, .footer:
             let section = indexPath.section
             guard let resuableView = kind == .header ? dataSource.reusableSectionHeaderView(at: section) : dataSource.reusableSectionFooterView(at: section) else { return nil }
             model = dataSource.sectionModel(at: section)
-            item = makeHeaderFooterView(from: resuableView, at: section)
-            reusableItem = resuableView
+            item = makeHeaderFooterView(token: resuableView)
+            itemToken = resuableView
             contentWidth = bounds.width
         }
         
         // If cell or model has provided the height, just use it.
         if let heightProvider = model as? TableViewItemHeightProvidable {
-            return heightProvider.tableViewItemHeight(state: model, reusableItem: reusableItem, contentWidth: contentWidth) }
+            return heightProvider.tableViewItemHeight(state: model, token: itemToken, contentWidth: contentWidth) }
         if let heightProvider = item as? TableViewItemHeightProvidable {
             if heightProvider.isNeedStateSynchronized {
                 dataSource.synchronizeItem(item, withState: model, atIndexPath: indexPath, kind: kind)
             }
-            return heightProvider.tableViewItemHeight(state: model, reusableItem: reusableItem, contentWidth: contentWidth)
+            return heightProvider.tableViewItemHeight(state: model, token: itemToken, contentWidth: contentWidth)
         }
         
         dataSource.synchronizeItem(item, withState: model, atIndexPath: indexPath, kind: kind)

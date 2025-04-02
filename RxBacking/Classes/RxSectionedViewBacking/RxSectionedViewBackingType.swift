@@ -47,10 +47,10 @@ extension _RxSectionedViewBackingType {
         reusableSectionFooterView?(strongModel[section], section)
     }
     
-    func item(at indexPath: IndexPath) -> Any { strongModel[indexPath] }
+    func sectionModelItem(at indexPath: IndexPath) -> Any { strongModel[indexPath]
+    }
     
-    func sectionModel(at section: Int) -> Any { strongModel[section] }
-    
-
+    func sectionModel(at section: Int) -> Any { strongModel[section]
+    }
 }
 

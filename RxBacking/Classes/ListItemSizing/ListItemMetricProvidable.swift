@@ -10,10 +10,12 @@ import ViewSizeCalculation
 import UIKit
 
 public protocol TableViewItemHeightProvidable {
-    /// Only work for View.
+    /// Should sync the state with item before returning the height.
+    ///
+    /// Default is false
     var isNeedStateSynchronized: Bool { get }
     
-    func tableViewItemHeight(state: Any, reusableItem: ReusableItem, contentWidth: CGFloat) -> CGFloat
+    func tableViewItemHeight(state: Any, token: ReusableViewToken, contentWidth: CGFloat) -> CGFloat
 }
 
 extension TableViewItemHeightProvidable {
@@ -22,10 +24,12 @@ extension TableViewItemHeightProvidable {
 
 
 public protocol CollectionViewItemSizeProvidable {
-    /// Only work for View.
+    /// Should sync the state with item before returning the size.
+    ///
+    /// Default is false
     var isNeedStateSynchronized: Bool { get }
     
-    func collectionViewItemSize(state: Any, reusableItem: ReusableItem, collectionViewWidth: CGFloat) -> CGSize
+    func collectionViewItemSize(state: Any, token: ReusableViewToken, collectionViewWidth: CGFloat) -> CGSize
 }
 
 extension CollectionViewItemSizeProvidable {

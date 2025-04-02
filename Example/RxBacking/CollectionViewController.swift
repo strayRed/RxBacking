@@ -33,6 +33,9 @@ class CollectionViewController: UIViewController, UICollectionViewDelegateFlowLa
             .reusableCell { _, _ in Reusable.collectionViewCell }
             .reusableSectionHeaderView { _, _ in Reusable.collectionViewHeaderFooter }
             .cellSizeConstraint { _, _ in .width((self.collectionView.bounds.width)) }
+            .headerSizeConstraint({ [weak self] _, _ in
+                    .width(self?.collectionView.bounds.width)
+            })
             .forwordObject(self)
             .dataSourceBinded(to: source.asObservable())
             .disposed(by: bag)
@@ -40,9 +43,10 @@ class CollectionViewController: UIViewController, UICollectionViewDelegateFlowLa
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return .init(width: collectionView.bounds.width, height: 100)
-    }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        return .init(width: collectionView.bounds.width, height: 100)
+//    }
 
     /*
     // MARK: - Navigation

@@ -94,10 +94,10 @@ static NSMutableDictionary<NSString *, NSValue *> *swizzleFlags;
     [self swizzleResponsiveMethods];
 }
 
-typedef struct __imp_wrapper {
+typedef struct IMPWrapper {
     IMP  value;
     bool isEmpty;
-} *__IMP_Wrapper;
+} *P_IMPWrapper;
 
 +(void)swizzleResponsiveMethods {
     if(!swizzleFlags) { swizzleFlags = [NSMutableDictionary new]; }
@@ -110,27 +110,27 @@ typedef struct __imp_wrapper {
         unsigned int argCount = method_getNumberOfArguments(method);
         IMP oldIMP = method_getImplementation(method);
         IMP newIMP;
-        __IMP_Wrapper (^ forwardIMPWrapperGenerator)(id);
+        P_IMPWrapper (^ forwardIMPWrapperGenerator)(id);
         forwardIMPWrapperGenerator = ^(id obj) {
             NSObject *forwardObject = [obj valueForKey:@"forwardObject"];
-            struct __imp_wrapper _imp_w; __IMP_Wrapper imp_w = &_imp_w;
+            struct IMPWrapper impWrapper; P_IMPWrapper pImpWrapper = &impWrapper;
             if (![forwardObject respondsToSelector:sel]) {
                 // True means nil.
-                imp_w->isEmpty = true;
+                pImpWrapper->isEmpty = true;
             }
             else {
                 Method method = class_getInstanceMethod([forwardObject class], sel);
-                imp_w->value = method_getImplementation(method);
-                imp_w->isEmpty = false;
+                pImpWrapper->value = method_getImplementation(method);
+                pImpWrapper->isEmpty = false;
             }
-            return imp_w;
+            return pImpWrapper;
         };
         if(argCount == 2) {
             /// The SEL argument should not be declared in the block IMP.
             /// Using `void*` to represent any pointer.
             void*(^ newImpBlock)(id);
             newImpBlock = ^(id obj) {
-                __IMP_Wrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
+                P_IMPWrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
                 if(forwardIMPWrapper->isEmpty) {
                     return ((void* (*)(id, SEL))oldIMP)(obj, sel);
                 }
@@ -143,7 +143,7 @@ typedef struct __imp_wrapper {
         else if (argCount == 3) {
             void*(^ newImpBlock)(id, void*);
             newImpBlock = ^(id obj, void* a) {
-                __IMP_Wrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
+                P_IMPWrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
                 if(forwardIMPWrapper->isEmpty) {
                     return ((void* (*)(id, SEL, void*))oldIMP)(obj, sel, a);
                 }
@@ -156,7 +156,7 @@ typedef struct __imp_wrapper {
         else if (argCount == 4) {
             void*(^ newImpBlock)(id, void*, void*);
             newImpBlock = ^(id obj, void* a, void* b) {
-                __IMP_Wrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
+                P_IMPWrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
                 if(forwardIMPWrapper->isEmpty) {
                     return ((void* (*)(id, SEL, void*, void*))oldIMP)(obj, sel, a, b);
                 }
@@ -170,7 +170,7 @@ typedef struct __imp_wrapper {
         else if (argCount == 5) {
             void*(^ newImpBlock)(id, void*, void*, void*);
             newImpBlock = ^(id obj, void* a, void* b, void* c) {
-                __IMP_Wrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
+                P_IMPWrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
                 if(forwardIMPWrapper->isEmpty) {
                     return ((void* (*)(id, SEL, void*, void*, void*))oldIMP)(obj, sel, a, b, c);
                 }
@@ -184,7 +184,7 @@ typedef struct __imp_wrapper {
         else if (argCount == 6) {
             void*(^ newImpBlock)(id, void*, void*, void*, void*);
             newImpBlock = ^(id obj, void* a, void* b, void* c, void* d) {
-                __IMP_Wrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
+                P_IMPWrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
                 if(forwardIMPWrapper->isEmpty) {
                     return ((void* (*)(id, SEL, void*, void*, void*, void*))oldIMP)(obj, sel, a, b, c, d);
                 }
@@ -198,7 +198,7 @@ typedef struct __imp_wrapper {
         else if (argCount == 7) {
             void*(^ newImpBlock)(id, void*, void*, void*, void*, void*);
             newImpBlock = ^(id obj, void* a, void* b, void* c, void* d, void* e) {
-                __IMP_Wrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
+                P_IMPWrapper forwardIMPWrapper = forwardIMPWrapperGenerator(obj);
                 if(forwardIMPWrapper->isEmpty) {
                     return ((void* (*)(id, SEL, void*, void*, void*, void*, void*))oldIMP)(obj, sel, a, b, c, d, e);
                 }
@@ -210,7 +210,7 @@ typedef struct __imp_wrapper {
         }
         else {
             // The max number of arugments is set as 7(5).
-            // It should be enough :)
+            // That should be enough :)
             return;
         }
         if(newIMP) {

@@ -54,19 +54,6 @@ extension UITableView {
     }
 }
 
-extension AnyReusableCell {
-    func makeTableViewCell() -> UITableViewCell {
-        if let nib = self.nib {
-            for view in nib.instantiate(withOwner: nil, options: nil) {
-                if let cell = view as? UITableViewCell { return cell }
-            }
-        }
-        if let type = self.type as? UITableViewCell.Type {
-            return type.init(style: .default, reuseIdentifier: nil)
-        }
-        fatalError("Mismatched ReusableCell type")
-    }
-}
 
 extension UITableView {
     func dequeue(_ view: AnyReusableView) -> UITableViewHeaderFooterView {

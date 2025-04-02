@@ -7,7 +7,7 @@ target 'RxBacking_Example' do
   pod 'RxBacking', :path => '../'
   pod 'SnapKit'
   pod 'ViewSizeExpansion'
-  # pod 'LookinServer', :configurations => ['Debug']
+ # pod 'LookinServer', :configurations => ['Debug']
 
   target 'RxBacking_Tests' do
     inherit! :search_paths

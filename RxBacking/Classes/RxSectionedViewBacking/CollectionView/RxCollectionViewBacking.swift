@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxDataSources
+import ViewSizeCalculation
 import UIKit
 
 open class RxCollectionViewBacking<SectionModel: SectionModelType, DataSource: CollectionViewSectionedDataSource<SectionModel> & RxCollectionViewDataSourceType>: Backing<UICollectionView>, _RxSectionedViewBackingType, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout where DataSource.Element == [SectionModel] {
@@ -187,12 +188,13 @@ open class RxCollectionViewBacking<SectionModel: SectionModelType, DataSource: C
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if let headerSize = sizeProvider.makeSize(kind: .header, constraint: headerSizeConstraint?(strongModel[section], section), indexPath: .init(item: 0, section: section)) {
-            return headerSize
-        }
         
         if let headerSize = headerSize {
             return headerSize(strongModel[section], section)
+        }
+        
+        if let headerSize = sizeProvider.makeSize(kind: .header, constraint: headerSizeConstraint?(strongModel[section], section), indexPath: .init(item: 0, section: section)) {
+            return headerSize
         }
         
         return (collectionViewLayout as? UICollectionViewFlowLayout)?.headerReferenceSize ?? .zero
@@ -211,12 +213,13 @@ open class RxCollectionViewBacking<SectionModel: SectionModelType, DataSource: C
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if let cellSize = sizeProvider.makeSize(kind: .cell, constraint: cellSizeConstraint?(strongModel[indexPath], indexPath), indexPath: indexPath) { return cellSize
-            
-        }
         
         if let cellSize = cellSize {
             return cellSize(strongModel[indexPath], indexPath)
+        }
+        
+        if let cellSize = sizeProvider.makeSize(kind: .cell, constraint: cellSizeConstraint?(strongModel[indexPath], indexPath), indexPath: indexPath) { return cellSize
+            
         }
         
         return (collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize ?? .zero

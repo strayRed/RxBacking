@@ -44,7 +44,6 @@ class RxCollectionViewCellSizeProvider: ListIndePathSizedItemStorage {
             storeSize(newSize, inKind: kind, forKey: key)
         }
         return newSize
-        
     }
 
     func removeAllItems() {
